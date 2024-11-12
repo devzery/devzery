@@ -12,10 +12,10 @@ pip install devzery[all]
 pip install <path-to-local>
 
 # For Django only
-pip install devzery-middleware[django]
+pip install devzery[django]
 
 # For Flask only
-pip install devzery-middleware[flask]
+pip install devzery[flask]
 ```
 
 ## Usage
@@ -71,14 +71,6 @@ middleware = devzery.flask_middleware(app)
 ### Requests
 
 In your app.py or init.py or any file that is executed when your app starts, add the following code:
-
-```python
-from devzery import patch_requests
-
-patch_requests() 
-```
-
-### Requests
 
 ```python
 from devzery import Devzery
