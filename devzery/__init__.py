@@ -1,14 +1,18 @@
+import os
 from importlib import import_module
 import warnings
 from .requests.patcher import DevzeryRequestsMiddleware  # Import the patch_requests function
 from .requests import interceptor
+from dotenv import load_dotenv
 
-__version__ = "0.1.0"
+load_dotenv()
+
+__version__ = "0.0.7"
 
 class Devzery:
     def __init__(self, app=None, api_endpoint=None, api_key=None, source_name=None):
         self.api_endpoint = api_endpoint
-        self.api_key = api_key 
+        self.api_key = os.getenv("DEVZERY_API_KEY") if api_key is None else api_key
         self.source_name = source_name
         self.app = app
         self._django_middleware = None
