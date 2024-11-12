@@ -6,6 +6,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'requests>=2.25.0',
+        'python-dotenv>=1.0.0',
     ],
     extras_require={
         'django': ['django>=3.0.0'],
