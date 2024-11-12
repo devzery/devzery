@@ -1,0 +1,7 @@
+requests>=2.25.0
+
+[django]
+django>=3.0.0
+
+[flask]
+flask>=2.0.0

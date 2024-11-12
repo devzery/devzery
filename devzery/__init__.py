@@ -5,7 +5,6 @@ from .requests import interceptor
 
 __version__ = "0.1.0"
 
-
 def get_django_middleware():
     try:
         return import_module('.django.middleware', 'devzery').RequestResponseLoggingMiddleware
