@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: devzery-middleware
+Version: 0.1.0
+Summary: Request-Response logging middleware for Django and Flask
+Home-page: https://github.com/yourusername/devzery-middleware
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Framework :: Django
+Classifier: Framework :: Flask
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.25.0
+Provides-Extra: django
+Requires-Dist: django>=3.0.0; extra == "django"
+Provides-Extra: flask
+Requires-Dist: flask>=2.0.0; extra == "flask"
