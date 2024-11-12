@@ -54,7 +54,7 @@ class Devzery:
                 api_key=self.api_key,
                 source_name=self.source_name
             )
-        return self._requests_middleware
+        return self._requests_middleware.intercept_requests()
 
 # For backwards compatibility
 def get_django_middleware():

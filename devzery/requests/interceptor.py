@@ -60,8 +60,9 @@ class InterceptAdapter(HTTPAdapter, BaseDevzeryMiddleware):
 
         data = {
             'request': {
+                'baseURL': f"{urlparse(request.url).scheme}://{urlparse(request.url).netloc}",
                 'method': request.method,
-                'path': request.url,
+                'path': urlparse(request.url).path,
                 'headers': dict(request.headers),
                 'body': body,
             },
