@@ -4,6 +4,10 @@ import requests
 import threading
 import time
 from urllib.parse import urlparse
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class InterceptAdapter(HTTPAdapter, BaseDevzeryMiddleware):
@@ -23,21 +27,36 @@ class InterceptAdapter(HTTPAdapter, BaseDevzeryMiddleware):
             source_name=source_name
         )
 
-        self.backend_host = [urlparse(api_endpoint).netloc if api_endpoint else None]
-
-        if(self.backend_host is None):
-            self.backend_host = ["server-v3-7qxc7hlaka-uc.a.run.app"]
-
-    def should_intercept(self, request_url):
+    def should_intercept(self, request_url: str, exclude_patterns: list = None) -> bool:
         """
-        Determine if the request should be intercepted and logged
-        Returns False if the request is to the logging backend
+        Determine if a request should be intercepted based on URL and exclusion patterns.
+        
+        Args:
+            request_url (str): The URL of the request
+            exclude_patterns (list, optional): List of URL patterns to exclude. Defaults to None.
+        
+        Returns:
+            bool: True if request should be intercepted, False otherwise
         """
-        if not self.backend_host:
-            return True
+        if not request_url:
+            return False
 
-        request_host = urlparse(request_url).netloc
-        return request_host not in self.backend_host
+        # Default exclude patterns if none provided
+        if exclude_patterns is None:
+            exclude_patterns = [
+                'server-v3-7qxc7hlaka-uc.a.run.app',
+            ]
+
+        # Check if URL matches any exclude pattern
+        for pattern in exclude_patterns:
+            if pattern.lower() in request_url.lower():
+                return False
+
+        # Only intercept HTTP(S) requests
+        if not request_url.startswith(('http://', 'https://')):
+            return False
+
+        return True
 
     def send(self, request, **kwargs):
 

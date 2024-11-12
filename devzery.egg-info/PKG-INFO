@@ -13,6 +13,7 @@ Classifier: Framework :: Flask
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 Requires-Dist: requests>=2.25.0
+Requires-Dist: python-dotenv>=1.0.0
 Provides-Extra: django
 Requires-Dist: django>=3.0.0; extra == "django"
 Provides-Extra: flask

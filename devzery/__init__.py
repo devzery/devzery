@@ -3,9 +3,9 @@ from importlib import import_module
 import warnings
 from .requests.patcher import DevzeryRequestsMiddleware  # Import the patch_requests function
 from .requests import interceptor
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
-load_dotenv()
+load_dotenv(find_dotenv())
 
 __version__ = "0.0.7"
 
