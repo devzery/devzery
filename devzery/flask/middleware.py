@@ -31,7 +31,24 @@ if FLASK_AVAILABLE:
 
         def before_request(self):
             request.start_time = time.time()
-            request._body = request.get_data()
+            try:
+                # Cache the raw data so it can be read multiple times
+                request._raw_body = request.get_data(cache=True, parse_form_data=True)
+                print(f"Devzery: Request Method: {request.method}")
+                print(f"Devzery: Content Type: {request.headers.get('Content-Type', '')}")
+                print(f"Devzery: Request Data: {request._raw_body}")
+                
+                # Additional checks for different request types
+                if request.is_json:
+                    print(f"Devzery: JSON Data: {request.get_json()}")
+                if request.form:
+                    print(f"Devzery: Form Data: {request.form}")
+                if request.files:
+                    print(f"Devzery: Files: {request.files}")
+                    
+            except Exception as e:
+                print(f"Devzery: Error capturing request data: {e}")
+                request._raw_body = b''
 
         def after_request(self, response):
             try:
@@ -39,14 +56,33 @@ if FLASK_AVAILABLE:
                     elapsed_time = time.time() - request.start_time
                     headers = dict(request.headers)
 
-                    if request.is_json:
-                        body = json.loads(request._body) if request._body else None
-                    elif request.content_type and (
-                            request.content_type.startswith('multipart/form-data') or
-                            request.content_type.startswith('application/x-www-form-urlencoded')
-                    ):
-                        body = dict(request.form)
-                    else:
+                    # Handle request body based on content type
+                    request._raw_body = request.get_data()
+
+                    body = None
+                    content_type = request.headers.get('Content-Type', '')
+                    # print(f"Devzery: Content Type: {request.body}")
+                    try:
+                        if content_type.startswith('application/json'):
+                            body = json.loads(request._raw_body) if request._raw_body else None
+                        elif content_type.startswith('multipart/form-data'):
+                            body = dict(request.form)
+                            # Include files if present
+                            if request.files:
+                                body['files'] = {k: v.filename for k, v in request.files.items()}
+                        elif content_type.startswith('application/x-www-form-urlencoded'):
+                            body = dict(request.form)
+                        else:
+                            # For raw body or other content types
+                            try:
+                                try:
+                                    body = request.json.loads(request._raw_body) if request._raw_body else None
+                                except AttributeError:
+                                    body = request._raw_body.decode('utf-8')
+                            except:
+                                body = str(request._raw_body)
+                    except Exception as e:
+                        print(f"Devzery: Error parsing request body: {e}")
                         body = None
 
                     try:

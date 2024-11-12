@@ -1,2 +1,4 @@
 .venv
 .idea
+// all python cache files and folders
+__pycache__
