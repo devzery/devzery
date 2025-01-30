@@ -2,6 +2,10 @@ import threading
 import requests
 import json
 import time
+import logging
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 class BaseDevzeryMiddleware:
     def __init__(self, api_endpoint=None, api_key=None, source_name=None):
@@ -18,12 +22,12 @@ class BaseDevzeryMiddleware:
                 }
                 response = requests.post(self.api_endpoint, json=data, headers=headers)
                 if response.status_code == 200:
-                    print("Devzery: Success!", response.json()['message'])
+                    logger.debug(f"Devzery: Success! {response.json()['message']}")
                 if response.status_code != 200:
-                    print(f"Failed to send data to API endpoint. Status code: {response.status_code}")
+                    logger.debug(f"Failed to send data to API endpoint. Status code: {response.status_code}")
             elif (self.api_key and self.source_name) is None:
-                print("Devzery: No API Key or Source given!")
+                logger.debug("Devzery: No API Key or Source given!")
             else:
-                print("Devzery: Response content is not JSON, not adding")
+                logger.debug("Devzery: Response content is not JSON, not adding")
         except requests.RequestException as e:
-            print(f"Error occurred while sending data to API endpoint: {e}")
+            logger.debug(f"Error occurred while sending data to API endpoint: {e}")

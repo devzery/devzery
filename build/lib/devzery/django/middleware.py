@@ -11,6 +11,9 @@ import json
 from urllib.parse import parse_qs
 import time
 import threading
+import logging
+
+logger = logging.getLogger(__name__)
 
 if DJANGO_AVAILABLE:
     class DevzeryDjangoMiddleware(MiddlewareMixin, BaseDevzeryMiddleware):
@@ -71,12 +74,12 @@ if DJANGO_AVAILABLE:
 
                 else:
                     if not self.api_key:
-                        print("Devzery: No API KEY")
+                        logger.debug("Devzery: No API KEY")
                     if not self.source_name:
-                        print("Devzery: No Source Name")
+                        logger.debug("Devzery: No Source Name")
 
             except Exception as e:
-                print(f"Devzery: Error occurred Capturing: {e}")
+                logger.debug(f"Devzery: Error occurred Capturing: {e}")
 
             return response
 

@@ -8,6 +8,9 @@ from ..core.base import BaseDevzeryMiddleware
 import json
 import time
 import threading
+import logging
+
+logger = logging.getLogger(__name__)
 
 if FLASK_AVAILABLE:
     class DevzeryFlaskMiddleware(BaseDevzeryMiddleware):
@@ -39,7 +42,7 @@ if FLASK_AVAILABLE:
                     elapsed_time = time.time() - request.start_time
                     headers = dict(request.headers)
 
-                    print("Devzery: Request Body", request._body)
+                    logger.debug("Devzery: Request Body", request._body)
 
                     if request.is_json:
                         body = json.loads(request._body) if request._body else None
@@ -52,7 +55,7 @@ if FLASK_AVAILABLE:
                         try:
                             body = json.loads(request._body)
                         except Exception as e:
-                            print(f"Devzery: Request body is not JSON or form data {e}")
+                            logger.debug(f"Devzery: Request body is not JSON or form data {e}")
                             body = None
 
                     try:
@@ -82,12 +85,12 @@ if FLASK_AVAILABLE:
 
                 else:
                     if not self.api_key:
-                        print("Devzery: No API KEY")
+                        logger.debug("Devzery: No API KEY")
                     if not self.source_name:
-                        print("Devzery: No Source Name")
+                        logger.debug("Devzery: No Source Name")
 
             except Exception as e:
-                print(f"Devzery: Error occurred Capturing: {e}")
+                logger.debug(f"Devzery: Error occurred Capturing: {e}")
 
             return response
 

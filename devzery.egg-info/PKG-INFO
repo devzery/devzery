@@ -2,9 +2,9 @@ Metadata-Version: 2.1
 Name: devzery
 Version: 0.0.7
 Summary: Request-Response logging middleware for Django and Flask
-Home-page: https://github.com/yourusername/devzery-middleware
-Author: Your Name
-Author-email: your.email@example.com
+Home-page: https://github.com/devzery/devzery
+Author: Devzery
+Author-email: nitish.varma@devzery.com
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
