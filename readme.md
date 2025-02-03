@@ -36,7 +36,7 @@ pip install devzery
 **Step 2:** Add the middleware to your Django settings.py file:
 
 Add RequestResponseLoggingMiddleware to the MIDDLEWARE list.
-```py
+```python
 MIDDLEWARE = [
     # Other middlewares...
     "devzery_middleware.middleware.RequestResponseLoggingMiddleware",
@@ -47,14 +47,14 @@ MIDDLEWARE = [
 **Step 3:** Configure your Devzery API key and server name:
 
 Add your Devzery API credentials in the settings.py file
-```py
+```python
 DEVZERY_API_KEY = "YOUR_API_KEY"  # Replace with your Devzery API key
 DEVZERY_SERVER_NAME = "YOUR_MICROSERVICE_NAME"  # Replace with an identifier for your microservice
 ```
 Make sure to apply the middleware before defining your routes or other middlewares.
 
 Example:
-```py
+```python
 MIDDLEWARE = [
     "devzery_middleware.middleware.RequestResponseLoggingMiddleware",
 ]
