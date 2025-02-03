@@ -1,4 +1,25 @@
 .venv
 .idea
-// all python cache files and folders
 __pycache__
+__pycache__/*
+*/__pycache__
+*.pyc
+*.log
+.DS_Store
+log/
+*.out
+*.zip
+.idea/*
+.env
+build/*
+dist/*
+*.egg-info/*
+venv/
+.vscode/*
+example.ipynb
+example.py
+devzery.egg-info/*
+build/*
+dist/*
+.idea/*
+.idea
