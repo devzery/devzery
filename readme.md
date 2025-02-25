@@ -39,7 +39,7 @@ Add RequestResponseLoggingMiddleware to the MIDDLEWARE list.
 ```python
 MIDDLEWARE = [
     # Other middlewares...
-    "devzery_middleware.middleware.RequestResponseLoggingMiddleware",
+    "devzery.django.middleware.DevzeryDjangoMiddleware",
 ]
 ```
 
@@ -56,7 +56,7 @@ Make sure to apply the middleware before defining your routes or other middlewar
 Example:
 ```python
 MIDDLEWARE = [
-    "devzery_middleware.middleware.RequestResponseLoggingMiddleware",
+    "devzery.django.middleware.DevzeryDjangoMiddleware",
 ]
 
 DEVZERY_API_KEY = "YOUR API KEY"
