@@ -21,9 +21,9 @@ if DJANGO_AVAILABLE:
             MiddlewareMixin.__init__(self, get_response)
             BaseDevzeryMiddleware.__init__(
                 self,
-                api_endpoint=getattr(settings, 'DEVZERY_URL', None),
+                api_endpoint=getattr(settings, 'DEVZERY_URL', 'https://server-v3-7qxc7hlaka-uc.a.run.app/api/add'),
                 api_key=getattr(settings, 'DEVZERY_API_KEY', None),
-                source_name=getattr(settings, 'DEVZERY_SOURCE_NAME', None)
+                source_name=getattr(settings, 'DEVZERY_SERVER_NAME', None)
             )
 
         def process_request(self, request):
@@ -37,14 +37,21 @@ if DJANGO_AVAILABLE:
                     headers = {key: value for key, value in request.META.items() if
                                key.startswith('HTTP_') or key in ['CONTENT_LENGTH', 'CONTENT_TYPE']}
 
-                    if request.content_type == 'application/json':
-                        body = json.loads(request._body) if request._body else None
-                    elif request.content_type and (
-                        request.content_type.startswith('multipart/form-data') or
-                        request.content_type.startswith('application/x-www-form-urlencoded')
-                    ):
-                        body = parse_qs(request._body.decode('utf-8'))
-                    else:
+                    try:
+                        if request.content_type == 'application/json':
+                            body = json.loads(request._body.decode('utf-8')) if request._body else None
+                        elif request.content_type and (
+                            request.content_type.startswith('multipart/form-data') or
+                            request.content_type.startswith('application/x-www-form-urlencoded')
+                        ):
+                            body = parse_qs(request._body.decode('utf-8'))
+                        else:
+                            body = None
+                    except json.JSONDecodeError:
+                        logger.debug("Devzery: Request body is not valid JSON")
+                        body = None
+                    except Exception as e:
+                        logger.debug(f"Devzery: Error parsing request body: {e}")
                         body = None
 
                     try:

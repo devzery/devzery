@@ -7,7 +7,7 @@ from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 
 class Devzery:
     def __init__(self, app=None, api_endpoint=None, api_key=None, source_name=None):
